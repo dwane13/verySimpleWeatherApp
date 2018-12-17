@@ -1,3 +1,6 @@
+<!--added strings here cause AS was blaming me for do it elseway-->
 <resources>
-    <string name="app_name">GeorgeWeather</string>
+    <string name="app_name">George Weather</string>
+    <string name="temperature">Temperature:</string>
+
 </resources>

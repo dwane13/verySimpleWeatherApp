@@ -16,7 +16,7 @@ public class DownloadTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... urls) {
 
-        String result = "";
+        // Just basic work with JSON
         URL url;
         HttpURLConnection urlConnection = null;
 
@@ -44,9 +44,9 @@ public class DownloadTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
 
+        // Getting info from our JSON
         try {
             JSONObject jsonObject = new JSONObject(result);
-
             JSONObject details = jsonObject.getJSONArray("weather").getJSONObject(0);
             JSONObject main = jsonObject.getJSONObject("main");
             String weatherDesc = details.getString("description");
@@ -54,11 +54,10 @@ public class DownloadTask extends AsyncTask<String, Void, String> {
             double temperature = Double.parseDouble(main.getString("temp"));
             int tempInInteger = (int) (temperature - 273.5);
 
-
-
-            MainActivity.temperatureTV.setText(String.valueOf("Температура: " +tempInInteger));
-            MainActivity.placeTV.setText("город/район " + place);
-            MainActivity.descriptionTV.setText("Погода: " + weatherDesc);
+            // Apply to the TextView
+            MainActivity.temperatureTV.setText(String.valueOf(+tempInInteger+"°C"));
+            MainActivity.placeTV.setText("District: " + place);
+            MainActivity.descriptionTV.setText("Description: " + weatherDesc);
 
 
 
