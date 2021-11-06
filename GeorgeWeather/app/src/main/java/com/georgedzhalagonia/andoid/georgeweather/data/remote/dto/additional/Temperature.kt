@@ -4,7 +4,7 @@ data class Temperature(
     val feels_like: Double,
     val humidity: Int,
     val pressure: Int,
-    val temp: Double,
+    var temp: Double,
     val temp_max: Double,
     val temp_min: Double
 )
