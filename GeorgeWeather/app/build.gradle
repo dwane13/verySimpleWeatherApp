@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 
 def apikeyPropertiesFile = rootProject.file("apikey.properties")
@@ -10,63 +9,99 @@ def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
+
     defaultConfig {
         applicationId "com.georgedzhalagonia.andoid.georgeweather"
-        minSdkVersion 19
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion 23
+        targetSdkVersion 31
+        versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "WEATHER_API", apikeyProperties['WEATHER_API'])
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
-    }
-    buildToolsVersion = '29.0.3'
-
-    dataBinding {
-        enabled = true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.0.1'
+        kotlinCompilerVersion '1.5.21'
+    }
+
+    // For Kotlin projects
+    kotlinOptions {
+        jvmTarget = "1.8"
+        useIR = true
+    }
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation "androidx.core:core-ktx:1.2.0"
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation "androidx.core:core-ktx:1.7.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    //compose
+    def compose_version = "1.0.4"
+    implementation 'androidx.compose.ui:ui:1.0.4'
+    // Tooling support (Previews, etc.)
+    implementation 'androidx.compose.ui:ui-tooling:1.0.4'
+    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
+    implementation 'androidx.compose.foundation:foundation:1.0.4'
+    // Material Design
+    implementation 'androidx.compose.material:material:1.0.4'
+    // Material design icons
+    implementation 'androidx.compose.material:material-icons-core:1.0.4'
+    implementation 'androidx.compose.material:material-icons-extended:1.0.4'
+    // Integration with activities
+    implementation 'androidx.activity:activity-compose:1.4.0'
+    // Integration with ViewModels
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0'
+    implementation "com.google.accompanist:accompanist-permissions:0.21.1-beta"
 
-    // Coroutines for getting off the UI thread
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5'
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
-    // Retrofit for networking
-    implementation "com.squareup.retrofit2:retrofit:2.8.1"
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
     implementation "com.squareup.retrofit2:converter-moshi:2.8.1"
     implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2"
-    implementation "com.squareup.okhttp3:logging-interceptor:3.8.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.9.0"
 
-    // Moshi for parsing the JSON format
+    // Navigation
+    implementation "androidx.navigation:navigation-compose:2.4.0-beta02"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0-alpha03'
+
+    // Moshi
     implementation "com.squareup.moshi:moshi:1.9.2"
     implementation "com.squareup.moshi:moshi-kotlin:1.9.2"
 
-    // ViewModel and LiveData (arch components)
+    // lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation 'com.google.android.gms:play-services-location:17.0.0'
-}
-repositories {
-    mavenCentral()
+
+    // hilt
+    implementation "com.google.dagger:hilt-android:2.38.1"
+    kapt "com.google.dagger:hilt-compiler:2.38.1"
+
+    //location
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+
+    //test
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
