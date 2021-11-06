@@ -15,7 +15,7 @@ class DailyWeatherUseCase @Inject constructor(
     private val repository: WeatherRepository
 ) {
     operator fun invoke(lat: Double, lon: Double, appId: String): Flow<Operation<DailyWeather>> = flow {
-        emit(Operation.Loading())
+        emit(Operation.Loading<DailyWeather>())
 
         when (val response = repository.getDailyWeather(lat, lon, appId)) {
             is Response.Error -> {

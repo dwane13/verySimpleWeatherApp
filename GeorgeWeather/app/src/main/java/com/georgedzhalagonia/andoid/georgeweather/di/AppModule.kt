@@ -5,6 +5,7 @@ import com.georgedzhalagonia.andoid.georgeweather.common.Constants
 import com.georgedzhalagonia.andoid.georgeweather.data.remote.OpenWeatherApi
 import com.georgedzhalagonia.andoid.georgeweather.data.repository.FusedLocationRepository
 import com.georgedzhalagonia.andoid.georgeweather.data.repository.OpenWeatherRepository
+import com.georgedzhalagonia.andoid.georgeweather.domain.repository.LocationRepository
 import com.georgedzhalagonia.andoid.georgeweather.domain.repository.WeatherRepository
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -16,6 +17,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
@@ -33,16 +36,15 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideLocationRepository(locationClient: FusedLocationProviderClient): FusedLocationRepository {
+    fun provideLocationRepository(locationClient: FusedLocationProviderClient): LocationRepository {
         return FusedLocationRepository(locationClient)
     }
 
     @Provides
     @Singleton
-    fun provideApi(moshi: MoshiConverterFactory) = Retrofit.Builder()
-        .addConverterFactory(
-            moshi
-        )
+    fun provideApi(moshi: MoshiConverterFactory, client: OkHttpClient) = Retrofit.Builder()
+        .addConverterFactory(moshi)
+        .client(client)
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .baseUrl(Constants.BASE_URL)
         .build()
@@ -55,6 +57,13 @@ object AppModule {
             .add(KotlinJsonAdapterFactory())
             .build()
     )
+
+    @Singleton
+    @Provides
+    fun provideHttpClient() = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }).build();
+
 
     @Provides
     @Singleton
