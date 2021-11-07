@@ -62,7 +62,7 @@ object AppModule {
     @Provides
     fun provideHttpClient() = OkHttpClient.Builder().addInterceptor(HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
-    }).build();
+    }).build()
 
 
     @Provides

@@ -6,7 +6,7 @@ import com.georgedzhalagonia.andoid.georgeweather.domain.model.utility.Response
 import com.georgedzhalagonia.andoid.georgeweather.domain.model.utility.successOperation
 import com.georgedzhalagonia.andoid.georgeweather.domain.model.utility.errorOperation
 import com.georgedzhalagonia.andoid.georgeweather.domain.repository.WeatherRepository
-import com.georgedzhalagonia.andoid.georgeweather.util.toCelsius
+import com.georgedzhalagonia.andoid.georgeweather.common.util.toCelsius
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject

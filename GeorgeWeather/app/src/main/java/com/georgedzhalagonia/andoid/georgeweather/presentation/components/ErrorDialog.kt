@@ -1,4 +1,4 @@
-package com.georgedzhalagonia.andoid.georgeweather.presentation.current_weather_screen.Component
+package com.georgedzhalagonia.andoid.georgeweather.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,11 +12,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.georgedzhalagonia.andoid.georgeweather.presentation.ui.theme.dark_middle_blue
 import com.georgedzhalagonia.andoid.georgeweather.presentation.ui.theme.dirty_light_blue
 import com.georgedzhalagonia.andoid.georgeweather.presentation.ui.theme.grey
-import com.google.android.gms.common.ErrorDialogFragment
 
 
 @Composable
@@ -47,5 +47,11 @@ fun ErrorDialog(
             Text(text = "Обновить")
         }
     }
+}
+
+@Preview
+@Composable
+fun ErrorDialogPreview() {
+    ErrorDialog {}
 }
 
